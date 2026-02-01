@@ -132,15 +132,10 @@ async fn fetch_ongoing_rounds(serverinfo_url: &str) -> eyre::Result<HashMap<Stri
     };
 
     let round_ids = HashMap::from_iter(server_info.servers.into_iter().filter_map(|server| {
-        server
-            .data
-            .map(|data| match data.round_id {
-                Some(round_id) => {
-                    Some((data.identifier, round_id.parse().expect("invalid round id")))
-                }
-                None => None,
-            })
-            .flatten()
+        server.data.and_then(|data| match data.round_id {
+            Some(round_id) => Some((data.identifier, round_id.parse().expect("invalid round id"))),
+            None => None,
+        })
     }));
 
     tracing::debug!("current round ids: {round_ids:?}");

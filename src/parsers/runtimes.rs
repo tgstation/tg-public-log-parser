@@ -13,7 +13,7 @@ pub fn process_runtimes_log(contents: String) -> String {
 }
 
 // Remove BYOND printed strings
-fn sanitize_runtimes_line(line: &str) -> Cow<str> {
+fn sanitize_runtimes_line<'a>(line: &'a str) -> Cow<'a, str> {
     static STRING_OUTPUT_REGEX: LazyLock<Regex> =
         LazyLock::new(|| Regex::new(r#"^.*Cannot read ".*$"#).unwrap());
 
@@ -101,7 +101,7 @@ struct CondensedRuntimes<'a> {
     runtimes: Vec<CondensedRuntime<'a>>,
 }
 
-fn get_condensed_runtimes(runtime_contents: &str) -> CondensedRuntimes {
+fn get_condensed_runtimes<'a>(runtime_contents: &'a str) -> CondensedRuntimes<'a> {
     let mut lines = runtime_contents.lines().peekable();
     let mut condensed_runtimes: HashMap<CondensedRuntimeKey, CondensedRuntimeValue> =
         HashMap::new();
