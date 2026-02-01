@@ -109,6 +109,14 @@ pub fn get_file_sanitization_strategy(path: &Path) -> Option<fn(String) -> Strin
 
         perf_filename if perf_filename.starts_with("perf-") => Some(std::convert::identity),
 
+        profiler_file
+            if path
+                .parent()
+                .is_some_and(|p| p.file_name().is_some_and(|pname| pname.eq("profiler"))) =>
+        {
+            Some(std::convert::identity)
+        }
+
         _ => None,
     }
 }
