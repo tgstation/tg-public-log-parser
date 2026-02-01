@@ -12,7 +12,7 @@ macro_rules! censor {
 }
 
 #[tracing::instrument(skip_all)]
-pub fn parse_line(line: &str) -> Cow<str> {
+pub fn parse_line<'a>(line: &'a str) -> Cow<'a, str> {
     let line = line.trim();
 
     if line.is_empty() {
