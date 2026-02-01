@@ -112,7 +112,7 @@ pub fn get_file_sanitization_strategy(path: &Path) -> Option<fn(String) -> Strin
         profiler_file
             if path
                 .parent()
-                .is_some_and(|p| p.file_name().is_some_and(|pname| pname.eq("profiler"))) =>
+                .is_some_and(|p| p.file_name().is_some_and(|pname| pname == "profiler")) =>
         {
             Some(std::convert::identity)
         }
